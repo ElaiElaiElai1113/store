@@ -1,7 +1,13 @@
 import React from "react";
 import Table from "./Table";
+import ProductItem from "./products/ProductItem";
+import ProductCategory from "./products/ProductCategory";
+import ProductCategoryHeader from "./products/ProductCategory";
 
-const ProductTable = () => {
+const ProductTable = ({ headers, products }) => {
+  const sportingGoods = products.filter((products) => products.type === 1);
+  const electronics = products.filter((products) => products.type === 2);
+
   return (
     <div>
       <Table.TableContainer>
@@ -13,29 +19,35 @@ const ProductTable = () => {
         </Table.THead>
 
         <Table.TBody>
-          <Table.Row>
-            <Table.ColumnHeader colspan="2">Sporting Goods</Table.ColumnHeader>
-          </Table.Row>
-          <Table.Row>
-            <Table.Column>Tennis</Table.Column>
-            <Table.Column>$99.99</Table.Column>
-          </Table.Row>
-          <Table.Row>
-            <Table.Column>Badminton</Table.Column>
-            <Table.Column>$9.99</Table.Column>
-          </Table.Row>
-          <Table.Row>
-            <Table.Column>Basketball</Table.Column>
-            <Table.Column>$49.99</Table.Column>
-          </Table.Row>
-          <Table.Row>
-            <Table.ColumnHeader colspan="2">Electronics</Table.ColumnHeader>
-          </Table.Row>
-          <Table.Row>
-            <Table.Column>IPod Touch</Table.Column>
-            <Table.Column>$99.99</Table.Column>
-          </Table.Row>
+          <ProductCategoryHeader text={headers[0]} />
+
+          {sportingGoods.map((sportingGood) => (
+            <ProductItem
+              key={`${sportingGood.type} - ${sportingGood.id}`}
+              name={sportingGood.name}
+              price={sportingGood.price}
+            />
+          ))}
+
+          <ProductCategoryHeader text={headers[1]} />
+
+          {electronics.map(({ id, name, price, type }) => (
+            <ProductItem key={`${type} - ${id}`} name={name} price={price} />
+          ))}
         </Table.TBody>
+        <Table.TFoot>
+          <Table.Row>
+            <Table.ColumnHeader>TOTAL</Table.ColumnHeader>
+            <Table.Column>
+              $
+              {products.reduce(
+                (previousValue, currentValue) =>
+                  previousValue + currentValue.price,
+                0
+              )}
+            </Table.Column>
+          </Table.Row>
+        </Table.TFoot>
       </Table.TableContainer>
     </div>
   );
