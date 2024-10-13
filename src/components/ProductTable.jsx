@@ -1,12 +1,11 @@
 import React from "react";
 import Table from "./Table";
 import ProductItem from "./products/ProductItem";
-import ProductCategory from "./products/ProductCategory";
 import ProductCategoryHeader from "./products/ProductCategory";
 
 const ProductTable = ({ headers, products }) => {
-  const sportingGoods = products.filter((products) => products.type === 1);
-  const electronics = products.filter((products) => products.type === 2);
+  const sportingGoods = products.filter((product) => product.type === 1);
+  const electronics = products.filter((product) => product.type === 2);
 
   return (
     <div>
@@ -22,9 +21,10 @@ const ProductTable = ({ headers, products }) => {
           {sportingGoods.length > 0 && (
             <ProductCategoryHeader text={headers[0]} />
           )}
+
           {sportingGoods.map((sportingGood) => (
             <ProductItem
-              key={`${sportingGood.type} - ${sportingGood.id}`}
+              key={`${sportingGood.type}-${sportingGood.id}`}
               name={sportingGood.name}
               price={sportingGood.price}
             />
@@ -35,9 +35,10 @@ const ProductTable = ({ headers, products }) => {
           )}
 
           {electronics.map(({ id, name, price, type }) => (
-            <ProductItem key={`${type} - ${id}`} name={name} price={price} />
+            <ProductItem key={`${type}-${id}`} name={name} price={price} />
           ))}
         </Table.TBody>
+
         <Table.TFoot>
           <Table.Row>
             <Table.ColumnHeader>TOTAL</Table.ColumnHeader>

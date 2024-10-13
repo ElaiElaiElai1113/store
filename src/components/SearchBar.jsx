@@ -6,8 +6,8 @@ const SearchBar = ({ query, setQuery, stockChecked, setStockChecked }) => {
       <input
         type="text"
         value={query}
-        placeholder="Place text here"
         onChange={(e) => setQuery(e.target.value)}
+        placeholder="Type here"
       />
       <div>
         <input
@@ -15,7 +15,7 @@ const SearchBar = ({ query, setQuery, stockChecked, setStockChecked }) => {
           checked={stockChecked}
           onChange={(e) => setStockChecked(e.target.checked)}
         />
-        Only shows products in stocks
+        Only show products in stock
       </div>
     </div>
   );
