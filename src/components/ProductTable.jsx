@@ -1,9 +1,9 @@
 import React from "react";
 import Table from "./Table";
 import ProductItem from "./products/ProductItem";
-import ProductCategoryHeader from "./products/ProductCategory";
+import ProductCategoryHeader from "./products/ProductCategoryHeader";
 
-const ProductTable = ({ headers, products }) => {
+const ProductTable = ({ headers, products, setProducts }) => {
   const sportingGoods = products.filter((product) => product.type === 1);
   const electronics = products.filter((product) => product.type === 2);
 
@@ -14,6 +14,8 @@ const ProductTable = ({ headers, products }) => {
           <Table.Row>
             <Table.ColumnHeader>Name</Table.ColumnHeader>
             <Table.ColumnHeader>Price</Table.ColumnHeader>
+            <Table.ColumnHeader>Stocks</Table.ColumnHeader>
+            <Table.ColumnHeader>Action</Table.ColumnHeader>
           </Table.Row>
         </Table.THead>
 
@@ -25,8 +27,8 @@ const ProductTable = ({ headers, products }) => {
           {sportingGoods.map((sportingGood) => (
             <ProductItem
               key={`${sportingGood.type}-${sportingGood.id}`}
-              name={sportingGood.name}
-              price={sportingGood.price}
+              value={sportingGood}
+              setProducts={setProducts}
             />
           ))}
 
@@ -34,8 +36,12 @@ const ProductTable = ({ headers, products }) => {
             <ProductCategoryHeader text={headers[1]} />
           )}
 
-          {electronics.map(({ id, name, price, type }) => (
-            <ProductItem key={`${type}-${id}`} name={name} price={price} />
+          {electronics.map((electronic) => (
+            <ProductItem
+              key={`${electronic.type}-${electronic.id}`}
+              value={electronic}
+              setProducts={setProducts}
+            />
           ))}
         </Table.TBody>
 
