@@ -1,7 +1,12 @@
 import React from "react";
 import Table from "./Table";
+import ProductItem from "./products/ProductItem";
+import ProductCategoryHeader from "./products/ProductCategoryHeader";
 
-const ProductTable = () => {
+const ProductTable = ({ headers, products, setProducts }) => {
+  const sportingGoods = products.filter((product) => product.type === 1);
+  const electronics = products.filter((product) => product.type === 2);
+
   return (
     <div>
       <Table.TableContainer>
@@ -9,33 +14,50 @@ const ProductTable = () => {
           <Table.Row>
             <Table.ColumnHeader>Name</Table.ColumnHeader>
             <Table.ColumnHeader>Price</Table.ColumnHeader>
+            <Table.ColumnHeader>Stocks</Table.ColumnHeader>
+            <Table.ColumnHeader>Action</Table.ColumnHeader>
           </Table.Row>
         </Table.THead>
 
         <Table.TBody>
-          <Table.Row>
-            <Table.ColumnHeader colspan="2">Sporting Goods</Table.ColumnHeader>
-          </Table.Row>
-          <Table.Row>
-            <Table.Column>Tennis</Table.Column>
-            <Table.Column>$99.99</Table.Column>
-          </Table.Row>
-          <Table.Row>
-            <Table.Column>Badminton</Table.Column>
-            <Table.Column>$9.99</Table.Column>
-          </Table.Row>
-          <Table.Row>
-            <Table.Column>Basketball</Table.Column>
-            <Table.Column>$49.99</Table.Column>
-          </Table.Row>
-          <Table.Row>
-            <Table.ColumnHeader colspan="2">Electronics</Table.ColumnHeader>
-          </Table.Row>
-          <Table.Row>
-            <Table.Column>IPod Touch</Table.Column>
-            <Table.Column>$99.99</Table.Column>
-          </Table.Row>
+          {sportingGoods.length > 0 && (
+            <ProductCategoryHeader text={headers[0]} />
+          )}
+
+          {sportingGoods.map((sportingGood) => (
+            <ProductItem
+              key={`${sportingGood.type}-${sportingGood.id}`}
+              value={sportingGood}
+              setProducts={setProducts}
+            />
+          ))}
+
+          {electronics.length > 0 && (
+            <ProductCategoryHeader text={headers[1]} />
+          )}
+
+          {electronics.map((electronic) => (
+            <ProductItem
+              key={`${electronic.type}-${electronic.id}`}
+              value={electronic}
+              setProducts={setProducts}
+            />
+          ))}
         </Table.TBody>
+
+        <Table.TFoot>
+          <Table.Row>
+            <Table.ColumnHeader>TOTAL</Table.ColumnHeader>
+            <Table.Column>
+              $
+              {products.reduce(
+                (previousValue, currentValue) =>
+                  previousValue + currentValue.price,
+                0
+              )}
+            </Table.Column>
+          </Table.Row>
+        </Table.TFoot>
       </Table.TableContainer>
     </div>
   );
